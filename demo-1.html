@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>H5MiniAudioPlayer-示例页面一</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+</head>
+<body>
+    <script src="H5MiniPlayer_Audio.js"></script>
+    <script type="text/javascript">
+        /* 1 */
+        //new h5MiniAudioPlayer().setCur('http://cc.stream.qqmusic.qq.com/1900692.m4a?fromtag=30').play();
+
+        /* 2 */
+        var player = new h5MiniAudioPlayer(/* { mode: 'single' } */);
+        //player.setCur('http://cc.stream.qqmusic.qq.com/1900692.m4a?fromtag=30').play();
+
+        /* 3 */
+        //player.add('http://cc.stream.qqmusic.qq.com/1900692.m4a?fromtag=30'); // or player.add(['http://cc.stream.qqmusic.qq.com/1900692.m4a?fromtag=30']);
+        //player.play();
+
+        /* 4 */
+        player.add(['http://ws.stream.qqmusic.qq.com/5220562.m4a?fromtag=30', 'http://cc.stream.qqmusic.qq.com/1551027.m4a?fromtag=30', 'http://cc.stream.qqmusic.qq.com/565768.m4a?fromtag=30']);
+        player.setCur('http://cc.stream.qqmusic.qq.com/1551027.m4a?fromtag=30');
+        player.play();
+    </script>
+</body>
+</html>

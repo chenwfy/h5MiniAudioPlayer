@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>H5MiniAudioPlayer-示例页面二</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <style type="text/css">
+        .wrapper {
+            width: 100%;
+            height: auto;
+        }
+
+        .item {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px #e4e4e4 solid;
+            text-align: left;
+            line-height: 50px;
+            color: #333;
+            font-size: 16px;
+            text-decoration: none;
+            overflow: hidden;
+        }
+
+            .item > span {
+                color: #06f;
+                font-size: 12px;
+                margin-left: 12px;
+            }
+
+            .item > p {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 4px;
+                border-bottom: 1px #f60 solid;
+                line-height: 0;
+                font-size: 0;
+                overflow: hidden;
+            }
+    </style>
+</head>
+<body>
+    <div class="wrapper"></div>
+
+    <script src="H5MiniPlayer_Audio.js"></script>
+    <script type="text/javascript">
+        var songs = ['http://ws.stream.qqmusic.qq.com/5220562.m4a?fromtag=30',
+                    'http://cc.stream.qqmusic.qq.com/1551027.m4a?fromtag=30',
+                    'http://cc.stream.qqmusic.qq.com/565768.m4a?fromtag=30',
+                    'http://cc.stream.qqmusic.qq.com/102448537.m4a?fromtag=30',
+                    'http://cc.stream.qqmusic.qq.com/1900692.m4a?fromtag=30'
+        ],
+            count = songs.length,
+            render = document.documentElement.querySelector('.wrapper'),
+            timerReders = [],
+            progressRender = [],
+            player = new h5MiniAudioPlayer({ mode: 'loop' });
+
+        player.add(songs).on('timeupdate', function () {
+            var cur = player.getCur(),
+                idx = cur ? songs.indexOf(cur) : -1;
+
+            if (idx >= 0) {
+                var duration = player.getDuration(),
+                    position = player.getPosition(),
+                    durationTime = player.getDuration(true),
+                    positionTime = player.getPosition(true);
+
+                timerReders[idx].innerText = positionTime + ' / ' + durationTime;
+                progressRender[idx].style.width = ((position / duration) * 100) + '%';
+            }
+        });
+
+        var itemClick = function (idx) {
+            this.addEventListener('click', function () {
+                var cur = player.getCur() || '';
+                if (cur != songs[idx]) {
+                    player.pause();
+                    player.setCur(songs[idx]);
+                    player.play();
+                } else {
+                    player.play();
+                }
+            }, false);
+        };
+
+        for (var i = 0; i < count; i++) {
+            var item = document.createElement('a');
+            item.setAttribute('href', 'javascript:void(0);');
+            item.setAttribute('class', 'item');
+            item.innerText = '点击播放第 ' + (i + 1) + ' 首歌曲';
+            render.appendChild(item);
+
+            var span = document.createElement('span');
+            item.appendChild(span);
+
+            var p = document.createElement('p');
+            item.appendChild(p);
+
+            progressRender.push(p);
+            timerReders.push(span);
+
+            itemClick.call(item, i);
+        }
+    </script>
+</body>
+</html>
